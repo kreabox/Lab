@@ -1,62 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Smart To-Do List</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 <body>
-  <h2>📌 Smart To-Do List</h2>
-  <p>🕒 Waktu Sekarang: <span id="clock"></span></p>
-  
-  <input id="taskInput" placeholder="Tambah tugas..." />
-  <button onclick="addTask()">Tambah</button>
+    <h1 >PREVIEW DATA USER</h1>
+    <div id="loader" style="display: none;">
+        <p>Loading...</p>
+    </div>
+    <div id="tampilan_data" style="display:none">
+        <p>Fullname : <b id="name"></b></p>
+        <p>Phone : <b id="phone"></b></p>
+        <p>Username : <b id="username"></b></p>
+        <p>Street : <b id="street"></b></p>
+        <p>City : <b id="city"></b></p>
+    </div>
+    <div id="list_data"></div>
+    <button type="button" onclick="loadDataList()">Ambil Data User </button>
 
-  <ul id="taskList"></ul>
-
-  <script>
-    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-
-    function renderTasks() {
-      const list = document.getElementById('taskList');
-      list.innerHTML = '';
-      tasks.forEach((task, i) => {
-        const item = document.createElement('li');
-        item.innerHTML = `
-          ${task.done ? "✅" : "⬜"} ${task.name}
-          <button onclick="toggleDone(${i})">${task.done ? "Batal" : "Selesai"}</button>
-          <button onclick="deleteTask(${i})">Hapus</button>
-        `;
-        list.appendChild(item);
-      });
-      localStorage.setItem('tasks', JSON.stringify(tasks));
-    }
-
-    function addTask() {
-      const input = document.getElementById('taskInput');
-      const name = input.value.trim();
-      if (name) {
-        tasks.push({ name, done: false });
-        input.value = '';
-        renderTasks();
-      }
-    }
-
-    function deleteTask(index) {
-      tasks.splice(index, 1);
-      renderTasks();
-    }
-
-    function toggleDone(index) {
-      tasks[index].done = !tasks[index].done;
-      renderTasks();
-    }
-
-    // Jam real-time
-    setInterval(() => {
-      const now = new Date();
-      document.getElementById('clock').innerText = now.toLocaleTimeString();
-    }, 1000);
-
-    renderTasks();
-  </script>
+    <script src="variable.js"></script>
 </body>
 </html>
