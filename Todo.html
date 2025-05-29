@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Smart To-Do List</title>
+</head>
+<body>
+  <h2>📌 Smart To-Do List</h2>
+  <p>🕒 Waktu Sekarang: <span id="clock"></span></p>
+  
+  <input id="taskInput" placeholder="Tambah tugas..." />
+  <button onclick="addTask()">Tambah</button>
+
+  <ul id="taskList"></ul>
+
+  <script>
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    function renderTasks() {
+      const list = document.getElementById('taskList');
+      list.innerHTML = '';
+      tasks.forEach((task, i) => {
+        const item = document.createElement('li');
+        item.innerHTML = `
+          ${task.done ? "✅" : "⬜"} ${task.name}
+          <button onclick="toggleDone(${i})">${task.done ? "Batal" : "Selesai"}</button>
+          <button onclick="deleteTask(${i})">Hapus</button>
+        `;
+        list.appendChild(item);
+      });
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    function addTask() {
+      const input = document.getElementById('taskInput');
+      const name = input.value.trim();
+      if (name) {
+        tasks.push({ name, done: false });
+        input.value = '';
+        renderTasks();
+      }
+    }
+
+    function deleteTask(index) {
+      tasks.splice(index, 1);
+      renderTasks();
+    }
+
+    function toggleDone(index) {
+      tasks[index].done = !tasks[index].done;
+      renderTasks();
+    }
+
+    // Jam real-time
+    setInterval(() => {
+      const now = new Date();
+      document.getElementById('clock').innerText = now.toLocaleTimeString();
+    }, 1000);
+
+    renderTasks();
+  </script>
+</body>
+</html>
